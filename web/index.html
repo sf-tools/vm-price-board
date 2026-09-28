@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VM Price Board</title>
+<meta name="description" content="What a VM for your agent actually costs per month across 13 providers including E2B, Modal, Daytona, Sprites, exe.dev and boat. Prices re-checked weekly.">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1 class="mark">vm price board</h1>
+    <p class="intro">What a VM for your agent costs per month, on each provider's cheapest way to run it. Prices are checked every Monday.</p>
+    <p class="quiet" id="meta">Loading prices…</p>
+  </header>
+
+  <form id="calc" class="calc" aria-label="Machine to price">
+    <div class="line">
+      <span class="k">vcpu</span>
+      <span class="val"><span class="opts" role="radiogroup" aria-label="vCPU" id="vcpu-opts"></span></span>
+    </div>
+    <div class="line">
+      <span class="k">memory</span>
+      <span class="val"><span class="opts" role="radiogroup" aria-label="Memory in GB" id="ram-opts"></span><span class="quiet">gb</span></span>
+    </div>
+    <div class="line">
+      <label class="k" for="disk">disk</label>
+      <span class="val"><input id="disk" type="number" min="1" max="2000" step="1" value="20" inputmode="numeric"> <span class="quiet">gb</span></span>
+    </div>
+    <div class="line">
+      <label class="k" for="hours">awake</label>
+      <span class="val stack">
+        <span class="opts" id="hour-presets">
+          <button type="button" data-hours="730">24/7</button>
+          <button type="button" data-hours="176">work hours</button>
+          <button type="button" data-hours="60">a few hours a day</button>
+        </span>
+        <span class="slide"><input id="hours" type="range" min="10" max="730" step="10" value="730"><output id="hours-out" for="hours">730 h</output></span>
+      </span>
+    </div>
+    <div class="line">
+      <label class="k" for="load">cpu load</label>
+      <span class="val stack">
+        <span class="slide"><input id="load" type="range" min="5" max="100" step="5" value="100"><output id="load-out" for="load">100%</output></span>
+        <span class="quiet">Only moves providers that bill CPU on use. Agents waiting on model calls often sit under 20%.</span>
+      </span>
+    </div>
+    <input type="hidden" id="vcpu" value="2">
+    <input type="hidden" id="ram" value="4">
+  </form>
+
+  <section aria-labelledby="board-title">
+    <h2 id="board-title" class="rubric">monthly cost</h2>
+    <ol class="board" id="board" aria-live="polite"></ol>
+    <p class="quiet" id="nofit"></p>
+  </section>
+
+  <section aria-labelledby="changes-title">
+    <h2 id="changes-title" class="rubric">price changes</h2>
+    <ul class="changes" id="changes"></ul>
+  </section>
+
+  <footer class="quiet">
+    <p>Estimates cover compute, memory and disk, not egress or taxes. Check the provider's own page before you buy.</p>
+  </footer>
+</main>
+<script type="module" src="app.ts"></script>
+</body>
+</html>

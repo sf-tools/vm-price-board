@@ -1,0 +1,9 @@
+node_modules
+dist
+
+.env
+*.env
+
+.wrangler
+wrangler.refresh.toml
+worker-configuration.d.ts

@@ -1,0 +1,27 @@
+{
+  "name": "vm-price-board",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p web",
+    "db:migrate": "wrangler d1 migrations apply vm-price-board --local",
+    "db:migrate:remote": "wrangler d1 migrations apply vm-price-board --remote",
+    "refresh": "node scripts/refresh.mjs",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.129.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "html-minifier-terser": "^7.2.0",
+    "typescript": "5",
+    "wrangler": "^4.143.0"
+  },
+  "trustedDependencies": [
+    "workerd"
+  ]
+}

@@ -1,0 +1,37 @@
+name = "vm-price-board"
+main = "src/index.ts"
+
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "node scripts/build.mjs"
+watch_dir = "web"
+
+[assets]
+directory = "dist"
+binding = "ASSETS"
+run_worker_first = ["/", "/api/*"]
+
+[triggers]
+crons = ["17 6 * * 1"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vm-price-board"
+database_id = "06602a08-e38b-41f0-baa7-5a3a5c18f5d0"
+migrations_dir = "migrations"
+
+[vars]
+EXTRACT_MODEL = "claude-sonnet-5-5"
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "vm-price-board.sf.tools"
+custom_domain = true
+
+[[routes]]
+pattern = "vm-pricing.sf.tools"
+custom_domain = true
