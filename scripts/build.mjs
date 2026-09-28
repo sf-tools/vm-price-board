@@ -1,6 +1,6 @@
 import * as esbuild from "esbuild";
 import { minify } from "html-minifier-terser";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const SRC = "web";
@@ -8,6 +8,7 @@ const OUT = "dist";
 
 await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
+await cp(`${SRC}/public`, OUT, { recursive: true });
 
 const { metafile } = await esbuild.build({
   entryPoints: { app: `${SRC}/app.ts`, style: `${SRC}/style.css` },
